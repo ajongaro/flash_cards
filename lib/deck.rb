@@ -9,12 +9,16 @@ class Deck
   end
 
   def count
-    @cards.size
+    @cards.count
   end
 
   def cards_in_category(category)
     @cards.select do |card|
       card.category == category
     end
+  end
+
+  def current_card
+    @cards.first
   end
 end
