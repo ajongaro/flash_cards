@@ -11,8 +11,10 @@ class Round
     @turn_count = 0
   end
 
+  # in rails this can be replaced with the following after Deck#current_card is implemented:
+  #   delegate :current_card, to: @deck
   def current_card
-    @deck.cards.first
+    @deck.current_card
   end
 
   def take_turn(guess)
@@ -25,7 +27,7 @@ class Round
 
   # number_correct helper method
   def correct_answers
-    @turns.select { |turn| turn.card.answer.downcase == turn.guess.downcase }
+    @turns.select(&:correct?)
   end
 
   # percent_correct helper method
@@ -34,7 +36,7 @@ class Round
   end
 
   def cards_in_round
-    @deck.cards.count
+    @deck.count
   end
 
   def number_correct
@@ -58,6 +60,6 @@ class Round
   end
 
   def finished?
-    deck.cards.count == turn_count
+    deck.count == turn_count
   end
 end
